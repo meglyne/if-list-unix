@@ -9,7 +9,7 @@
 #include <ifaddrs.h>
 
 /* Use of sys/socket.h 
- * Implements AF_INET, AF_INET6, AF UNIX and AF_LOCAL names that will be used 
+ * Implements AF_INET, AF_INET6, AF_UNIX and AF_LOCAL names that will be used 
  * to determine the kind of network interface listed
  */
 #include <sys/socket.h>
@@ -42,9 +42,28 @@ int main(int argc, char **argv)
         struct ifaddrs *address = addresses;
         while (address)
         {
+            char* family_name;
+            int family = address->ifa_addr->sa_family;
+            switch(family)
+            {
+                case AF_INET:   //safamily 2
+                    family_name = "AF_INET";
+                    break;
+                case AF_INET6:  //safamily 10
+                    family_name = "AF_INET6";
+                    break;
+                case AF_PACKET: //sa_family 17
+                    family_name = "AF_PACKET";
+                    break;
+                default:
+                    family_name = "???";
+                    break;
+            }
             printf("%s\t", address->ifa_name);
+            printf("%s (%d)\n",family_name,family);
             address = address->ifa_next;
         }
+        printf("AF_INET: %d\nAF_INET6: %d\nAF_UNIX: %d\nAF_LOCAL: %d\n", AF_INET, AF_INET6, AF_UNIX, AF_LOCAL);
         //data returned by getifaddrs is dynamically allocated and should be freed using freeifaddrs()
         freeifaddrs(addresses);
         exit(EXIT_SUCCESS);
