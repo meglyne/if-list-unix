@@ -63,7 +63,6 @@ int main(int argc, char **argv)
             printf("%s (%d)\n",family_name,family);
             address = address->ifa_next;
         }
-        printf("AF_INET: %d\nAF_INET6: %d\nAF_UNIX: %d\nAF_LOCAL: %d\n", AF_INET, AF_INET6, AF_UNIX, AF_LOCAL);
         //data returned by getifaddrs is dynamically allocated and should be freed using freeifaddrs()
         freeifaddrs(addresses);
         exit(EXIT_SUCCESS);
