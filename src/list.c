@@ -35,7 +35,7 @@ int main(int argc, char **argv)
     if (getifaddrs(&addresses) == -1)
     {
         fprintf(stderr, "getifaddrs call failed\n");
-        return EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
     else
     {
@@ -45,5 +45,8 @@ int main(int argc, char **argv)
             printf("%s\t", address->ifa_name);
             address = address->ifa_next;
         }
+        //data returned by getifaddrs is dynamically allocated and should be freed using freeifaddrs()
+        freeifaddrs(addresses);
+        exit(EXIT_SUCCESS);
     }
 }
